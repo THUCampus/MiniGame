@@ -26,16 +26,16 @@
     "orientation": "portrait"
   },
   "renderMode": "1",
-  "startScene": "0ecfc15d-3525-4b73-90ac-6e5e5711b607",
+  "startScene": "4310f31a-7e48-409a-999c-178cc5fca562",
   "title": "rank",
   "webOrientation": "auto",
   "wechatgame": {
     "REMOTE_SERVER_ROOT": "",
-    "appid": "wx6ac3f5090a6b99c5",
+    "appid": "",
     "isSubdomain": true,
     "orientation": "landscape",
     "subContext": ""
   },
-  "xxteaKey": "fa074369-71c8-4c",
+  "xxteaKey": "abe6d1b8-33e8-4e",
   "zipCompressJs": true
 }

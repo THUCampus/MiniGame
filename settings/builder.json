@@ -2,7 +2,9 @@
   "appKey": "",
   "appSecret": "",
   "encryptJs": true,
-  "excludeScenes": [],
+  "excludeScenes": [
+    "dcab531c-eb5d-4b61-b332-bbea7697611b"
+  ],
   "fb-instant-games": {},
   "includeAnySDK": false,
   "includeSDKBox": false,
@@ -26,7 +28,7 @@
     "orientation": "portrait"
   },
   "renderMode": "0",
-  "startScene": "cd9447da-5e8e-477b-81bc-4c6295e59451",
+  "startScene": "cabefa2a-8951-4a8c-8446-cde8ad7e79cd",
   "title": "yuanyuanGame",
   "webOrientation": "auto",
   "wechatgame": {

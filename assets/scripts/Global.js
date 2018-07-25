@@ -27,7 +27,8 @@ window.Global = {
     enemies: [
         [0, 4, 0],
         [3, 11, 0]
-    ]
+    ],
+    gameScore: 0,
 };
 
 cc.Class({

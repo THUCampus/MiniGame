@@ -169,7 +169,8 @@ cc.Class({
     
     success: function() {
         this.controlable = false;
-        cc.director.loadScene("Success");
+        this.gameover = true;
+        cc.director.loadScene("Successed");
     },
 
     initWidthHeightLoadData: function(self) {
