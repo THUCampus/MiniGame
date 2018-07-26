@@ -9,6 +9,7 @@ cc.Class({
         gameOverRankView: cc.Node,
         gameOverRankLayout: cc.Node,
         loadingLabel: cc.Node,//加载文字
+        scoreLabel: cc.Node,
     },
 
     start() {
@@ -31,6 +32,8 @@ cc.Class({
         }
     },
     submitScore(MAIN_MENU_NUM, score) { //提交得分
+        score = Math.ceil(score);
+        this.scoreLabel.getComponent('cc.Label').string = '此次得分：' + score.toString();
         if (CC_WECHATGAME) {
             window.wx.getUserCloudStorage({
                 // 以key/value形式存储

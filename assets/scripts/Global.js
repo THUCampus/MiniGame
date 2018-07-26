@@ -29,6 +29,7 @@ window.Global = {
         [3, 11, 0]
     ],
     gameScore: 0,
+    gameBaseScore: 2000,
 };
 
 cc.Class({

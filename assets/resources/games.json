@@ -28,7 +28,8 @@
         "enemyNum": 1,
         "enemies": [
             [0, 4, 0]
-        ]
+        ],
+        "gameBaseScore": 1000
     },
     {
         "level": 1,
@@ -60,7 +61,8 @@
         "enemies": [
             [0, 4, 0],
             [3, 11, 1]
-        ]
+        ],
+        "gameBaseScore": 2000
     },
     {
         "level": 2,
@@ -91,7 +93,8 @@
         "enemies": [
             [0, 4, 0],
             [3, 11, 1]
-        ]
+        ],
+        "gameBaseScore": 4000
     },
     {
         "level": 3,
@@ -121,6 +124,7 @@
         "enemies": [
             [0, 4, 0],
             [3, 11, 1]
-        ]
+        ],
+        "gameBaseScore": 8000
     }
 ]

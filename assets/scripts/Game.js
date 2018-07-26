@@ -1,4 +1,4 @@
-const EMPTY_CELL = 0, ICE_CELL = 1, WALL_CELL = 2, ENEMY_MOVE = 32, PLAYER_MOVE = 16;
+const EMPTY_CELL = 0, ICE_CELL = 1, WALL_CELL = 2, ENEMY_MOVE = 32, PLAYER_MOVE = 16, PRINCESS_SAVE_SCORE = 5000, FRAME_RATE = 60;
 
 cc.Class({
     extends: cc.Component,
@@ -10,6 +10,10 @@ cc.Class({
             type: cc.Node,
         },
         scrollView: {
+            default: null,
+            type: cc.Node,
+        },
+        label: {
             default: null,
             type: cc.Node,
         },
@@ -66,15 +70,17 @@ cc.Class({
         spSokerCenter: cc.Sprite,
         
 
-
+        
         //// 这些是常数，*************切记要改的时候在cocos creator里面设置初始值！
+        //// 但是这些东西也可以直接进行修改作为彩蛋~bingo~
         cellWidth: 60,
         cellHeight: 60,
-
-        actionTimeMove: 0.2,
+        
         actionTimeRotate: 0.4,
+        moveSeconds: PLAYER_MOVE,
+        actionTimeMove: PLAYER_MOVE / FRAME_RATE,
         actionTimeMoveScroll: 1.2,
-        delayTimePressKey: 0.15,
+        delayTimePressKey: PLAYER_MOVE / FRAME_RATE,
         iceOperateTime: 0.3,
 
         // 消除冰块时显示多少帧，现在是每秒60帧，也就是在iceOperateTime这0.3秒里面有18帧
@@ -135,7 +141,16 @@ cc.Class({
         // 在摘到所有星星之后才能救公主，要不然公主会生气
         pickedAllStars: false,
 
+        // 控制hero是否可以移动
         playerSecond: 0,
+
+        // 彩蛋：控制enemy的移动，在enemyStopTime里面设置为true
+        enemyStopped: false,
+        enemyStoppedCount: 0,
+
+        // 彩蛋：无敌模式，在和小怪碰到的时候不会死，但是会减少100分（但是分数减少到0就死了呗，而且一旦碰到小怪就不是直接碰一次的事情咯~bingo~）
+        heroFearless: false,
+        heroFearlessCount: 0,
     },
 
     // initCells: function(self, width, height) {
@@ -159,6 +174,7 @@ cc.Class({
 
     savePricess: function() {
         if (this.pickedAllStars) {
+            Global.gameScore += PRINCESS_SAVE_SCORE;
             this.success();
         }
         else {
@@ -194,14 +210,17 @@ cc.Class({
             self.enemiesNum = Global.enemyNum;
         }
         for (let enemyData of Global.enemies) {
-            if (enemyData.length >= 4 && enemyData[0] >= 0 && enemyData[1] >= 0
+            if (enemyData.length >= 3 && enemyData[0] >= 0 && enemyData[1] >= 0
                 && enemyData[1] < self.cellsNumW && enemyData[0] < self.cellsNumH
                 && enemyData[2] >= 0 && enemyData[2] < self.EnemyPrefab.length
                 && enemyData[1] !== self.heroX && enemyData[0] !== self.heroY
-                && enemyData[3] > 0
                 && self.enemiesData.length < self.enemiesNum
             ) {
-                    self.enemiesData.push(enemyData);
+                if (!(enemyData.length >= 4 && enemyData[3] > 0)) {
+                    enemyData.push(0);
+                    enemyData[3] = ENEMY_MOVE;
+                }
+                self.enemiesData.push(enemyData);
             }
         }
         if (Global.starNum >= 0 && Global.starNum < self.cellsNumW * self.cellsNumH) {
@@ -264,6 +283,8 @@ cc.Class({
     },
 
     onLoad () {
+        // 计分
+        Global.gameScore = Global.gameBaseScore;
 
         this.spRoker.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.spRoker.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
@@ -340,7 +361,6 @@ cc.Class({
             return cc.v2(1,0);//右
         }else{
             this.direction = 'a';
- 
             return cc.v2(-1,0);//左
         }
     },
@@ -439,8 +459,8 @@ cc.Class({
         let i = Math.floor(Math.random() * self.cellsNumH);
         let j = Math.floor(Math.random() * self.cellsNumW);
         let type = Math.floor(Math.random() * self.EnemyPrefab.length);
-        // 不要和主人公重合！
-        if (self.hero.x === j && self.hero.y === i) {
+        // 不要和主人公太近！
+        if (Math.abs(self.hero.x - j) + Math.abs(self.hero.y - i) < 4) {
             return self.createRandomNewEnemy(self);
         }
         return {
@@ -462,7 +482,8 @@ cc.Class({
         }
         // 不要和主人公重合！
         if ((self.hero.x === j && self.hero.y === i) || 
-            (self.princessX === j && self.princessY === i)) {
+            (self.princessX === j && self.princessY === i) ||
+            !(self.cells[i][j].data === EMPTY_CELL || self.cells[i][j].data === ICE_CELL)) {
             return self.randomStarPosition(self);
         }
         return [i, j];
@@ -476,6 +497,8 @@ cc.Class({
             }
         }
         cc.audioEngine.playEffect(self.StarAudio,false);
+        // 计分
+        Global.gameScore += 600;
     },
 
     createStar: function(self, i = -1, j = -1) {
@@ -535,8 +558,9 @@ cc.Class({
         }
         return false;
     },
+
     enemyAutoOperate: function(self,self_who) {
-        console.log("start move");
+        // console.log("start move");
     
         let delta_y = self.hero.y - self_who.y;
         let delta_x = self.hero.x - self_who.x;
@@ -744,6 +768,18 @@ cc.Class({
                     self.iceOperate(self);
                 }
                 break;
+            case '5':
+                self.enemyStopTime(self, 5);
+                break;
+            case '6':
+                self.fearless(self, 5);
+                break;
+            case '7':
+                self.heroSpeedChange(self, 50, 5);
+                break;
+            case '8':
+                self.heroSpeedChange(self, 6, -1);
+                break;
         }
     },
 
@@ -783,11 +819,26 @@ cc.Class({
                 case cc.KEY.enter:
                     self.setButtonControl(self, '4');
                     break;
+                case cc.KEY.num5:
+                    self.setButtonControl(self, '5');
+                    break;
+                case cc.KEY.num6:
+                    self.setButtonControl(self, '6');
+                    break;
+                case cc.KEY.num7:
+                    self.setButtonControl(self, '7');
+                    break;
+                case cc.KEY.num8:
+                    self.setButtonControl(self, '8');
+                    break;
             }
         });
     },
 
     tupdate: function(self) {
+        // 计分
+        Global.gameScore -= 13;
+
         switch (self.direction) {
             case 's':
                 if (self.hero.y > 0 && self.cells[self.hero.y - 1][self.hero.x].data <= 0) {
@@ -818,6 +869,9 @@ cc.Class({
     },
 
     iceOperate: function(self) {
+        // 计分
+        Global.gameScore -= 47;
+
         self.enableIceOperation = false;
         let hero_x = self.hero.x;
         let hero_y = self.hero.y;
@@ -965,17 +1019,92 @@ cc.Class({
         cc.director.loadScene("GameOver");
     },
 
+    // 彩蛋，让小怪停一会
+    enemyStopTime: function(self, time = 6) {
+        if (time < 1) {
+            time = 1;
+        }
+        if (time > 20) {
+            time = 20;
+        }
+        self.enemyStopped = true;
+        self.enemyStoppedCount = FRAME_RATE * time;
+    },
+
+    // 无敌模式，在和小怪碰到的时候不会死，但是会减少100分（但是分数减少到0就死了呗，而且一旦碰到小怪就不是直接碰一次的事情咯~bingo~）
+    fearless: function(self, time = 6) {
+        if (time < 1) {
+            time = 1;
+        }
+        if (time > 20) {
+            time = 20;
+        }
+        self.heroFearless = true;
+        self.hero.NPC.opacity = 130;
+        self.heroFearlessCount = FRAME_RATE * time;
+    },
+
+    // 直接修改人物速度
+    heroSpeedChange: function(self, movetime = 20, time = 6) {
+        if (movetime > 60) {
+            movetime = 60;
+        }
+        if (movetime < 5) {
+            movetime = 5;
+        }
+        if (time > 20) {
+            time = 20;
+        }
+        let oriSecond = self.moveSeconds;
+        self.moveSeconds = movetime;
+        self.actionTimeMove = movetime / FRAME_RATE;
+        self.delayTimePressKey = movetime / FRAME_RATE;
+        if (time > 0) {
+            setTimeout(function() {
+                self.moveSeconds = oriSecond;
+                self.actionTimeMove = oriSecond / FRAME_RATE;
+                self.delayTimePressKey = oriSecond / FRAME_RATE;
+            }, time * 1000);
+        }
+        // 如果传进来负数，就永久修改咯
+    },
+
     update(dt) {
-        for (let enemy of this.enemies) {
-            enemy.seconds += 1;
-            if(enemy.seconds >= enemy.moveSeconds) {
-                enemy.seconds = 0;
-                this.enemyAutoOperate(this, enemy);
+        Global.gameScore -= this.enableIceOperation ? 1 / 60 : 1 / 10
+        if (Global.gameScore < 0) {
+            Global.failInfo = "hhh居然都负分了，tcl";
+            this.gameOver();
+        }
+        // 安卓版小游戏不支持对勾这个图标……换一个不太搭的吧
+        // this.label.getComponent('cc.Label').string = this.starNum.toString() + '\n' + Math.ceil(Global.gameScore).toString() + '\n' + (this.enableIceOperation ? '✔️' : '❌');
+        this.label.getComponent('cc.Label').string = this.starNum.toString() + '\n' + Math.ceil(Global.gameScore).toString() + '\n' + (this.enableIceOperation ? '✅' : '❌');
+
+        if (this.enemyStopped) {
+            this.enemyStoppedCount--;
+            if (this.enemyStoppedCount <= 0) {
+                this.enemyStopped = false;
+            }
+        }
+        else {
+            for (let enemy of this.enemies) {
+                enemy.seconds += 1;
+                if (enemy.seconds >= enemy.moveSeconds) {
+                    enemy.seconds = 0;
+                    this.enemyAutoOperate(this, enemy);
+                }
+            }
+        }
+
+        if (this.heroFearless) {
+            this.heroFearlessCount--;
+            if (this.heroFearlessCount <= 0) {
+                this.heroFearless = false;
+                this.hero.NPC.opacity = 255;
             }
         }
 
         this.playerSecond += 1;
-        if(this.playerSecond >= PLAYER_MOVE){
+        if(this.playerSecond >= this.moveSeconds){
             if(this.moveDir){
                 this.updatePlayerPos();
             }

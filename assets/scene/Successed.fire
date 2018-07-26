@@ -582,7 +582,7 @@
     "target": {
       "__id__": 2
     },
-    "component": "GameOver",
+    "component": "Successed",
     "handler": "loadRank",
     "customEventData": ""
   },
@@ -818,8 +818,8 @@
     "target": {
       "__id__": 2
     },
-    "component": "GameOver",
-    "handler": "loadNow",
+    "component": "Successed",
+    "handler": "loadSelector",
     "customEventData": ""
   },
   {
@@ -848,6 +848,8 @@
     "_enabled": true,
     "rankshow": {
       "__id__": 7
-    }
+    },
+    "opacityNums": 100,
+    "opacityTime": 4
   }
 ]

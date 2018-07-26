@@ -11,7 +11,6 @@ cc.Class({
     },
 
     onCollisionEnter: function (other, self) {
-        console.log("enter");
         switch(other.tag) {
         case 5:
             // 星星：
@@ -19,8 +18,13 @@ cc.Class({
             break;
         case 18:
             // 小怪
-            Global.failInfo = "哈哈哈哈哈哈哈哈哈你输了吧~";
-            this.game.gameOver();
+            if (this.game.heroFearless) {
+                Global.gameScore -= 100;
+            }
+            else {
+                Global.failInfo = "哈哈哈哈哈哈哈哈哈你输了吧~";
+                this.game.gameOver();
+            }
             break;
         case 46:
             // 公主

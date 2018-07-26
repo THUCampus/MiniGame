@@ -39,12 +39,12 @@ cc.Class({
     },
 
     update () {
-        if (this.rankshow) {
-            console.log("Have")
-        }
-        else {
-            console.log("Error!")
-        }
+        // if (this.rankshow) {
+        //     console.log("Have")
+        // }
+        // else {
+        //     console.log("Error!")
+        // }
         if (!this.tex) {
             return;
         }
