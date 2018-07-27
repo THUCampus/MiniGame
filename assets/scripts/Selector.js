@@ -37,6 +37,7 @@ cc.Class({
     },
 
     loadData(data) {
+        Global.gameNo = data;
         let nowData = Global.gamedata[data];
         for (let temp in nowData) {
             Global[temp] = nowData[temp];

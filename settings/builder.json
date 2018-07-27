@@ -27,7 +27,7 @@
     "REMOTE_SERVER_ROOT": "",
     "orientation": "portrait"
   },
-  "renderMode": "0",
+  "renderMode": "1",
   "startScene": "cabefa2a-8951-4a8c-8446-cde8ad7e79cd",
   "title": "yuanyuanGame",
   "webOrientation": "auto",

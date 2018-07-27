@@ -43,13 +43,10 @@ cc.Class({
             window.wx.showShareMenu({withShareTicket: true});//设置分享按钮，方便获取群id展示群排行榜
             this.tex = new cc.Texture2D();
             window.wx.postMessage({
-                messageType: 3,
-                MAIN_MENU_NUM: "x1",
+                messageType: 'post',
+                gameNo: Global.gameNo.toString(),
                 score: Global.gameScore,
-            });
-            window.wx.postMessage({// 发消息给子域
-                messageType: 4,
-                MAIN_MENU_NUM: "x1"
+                levelNums: Global.gamedata.length,
             });
         }
     },
@@ -59,12 +56,6 @@ cc.Class({
     },
 
     update () {
-        // if (this.rankshow) {
-        //     console.log("Have")
-        // }
-        // else {
-        //     console.log("Error!")
-        // }
         if (!this.tex) {
             return;
         }
