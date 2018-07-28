@@ -16,6 +16,41 @@ cc.Class({
     },
 
     onLoad() {
+        let GlobalBackup = {
+            hNum: 20,
+            wNum: 20,
+            cells: [
+                [1, 1, 1, 1, 0, 0, 0, 1, 1, 0,],
+                [1, 1, 1, 1, 0, 0, 0, 1, 1, 0,],
+                [1, 1, 1, 1, 0, 0, 0, 1, 1, 0,],
+                [1, 1, 1, 1, 0, 0, 0, 1, 1, 0,],
+                [1, 1, 1, 1, 0, 0, 0, 1, 1, 0,],
+                [1, 1, 1, 1, 0, 0, 0, 1, 1, 0,],
+                [1, 1, 1, 1, 0, 0, 0, 1, 1, 0,],
+                [1, 1, 1, 1, 0, 0, 0, 1, 1, 0,],
+                [1, 1, 1, 1, 0, 0, 0, 1, 1, 0,],
+                [1, 1, 1, 1, 0, 0, 0, 1, 1, 0,],
+            ],
+            heroX: 0,
+            heroY: 0,
+            starNum: 4,
+            starPosition: [],
+            bonusNum: 6,
+            bonusInfos: [],
+            failInfo: "哈哈哈哈哈哈哈哈哈哈哈哈你输了吧",
+            princessX: 9,
+            princessY: 9,
+            enemyNum: 2,
+            enemies: [
+                [0, 4, 0],
+                [3, 11, 0]
+            ],
+            gameScore: 0,
+            gameBaseScore: 2000,
+        };
+        for (let temp in GlobalBackup) {
+            Global[temp] = this.deepCopy(GlobalBackup[temp]);
+        }
         this.num = Global.gamedata.length;
         this.content.height = this.singleHeight * Math.ceil(this.num / 3 + 1) - this.heightAdderFirst * 2;
         for (let i = 0; i < this.num; i++) {

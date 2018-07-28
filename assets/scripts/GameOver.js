@@ -15,7 +15,9 @@ cc.Class({
     },
 
     onLoad() {
-        this.label.getComponent('cc.Label').string = Global.failInfo;
+        if (this.label) {
+            this.label.getComponent('cc.Label').string = Global.failInfo;
+        }
     },
 
     loadNow: function(event, data) {
@@ -31,25 +33,15 @@ cc.Class({
         let self = this;
         let opacityAction = setInterval(function() {
             m++;
-            if (m > self.opacityNums) {
+            if (m > self.opacityNums || !(self.display)) {
                 m = self.opacityNums;
                 clearInterval(opacityAction);
             }
-            self.display.node.opacity = 255 * m / self.opacityNums;
+            if (self.display) {
+                self.display.node.opacity = 255 * m / self.opacityNums;
+            }
         }, this.opacityTime * 1000 / this.opacityNums);
-        function tempClearOpacity(itself, mopacityAction) {
-            setTimeout(()=>{
-                if (m < itself.opacityNums) {
-                    tempClearOpacity(itself, mopacityAction);
-                }
-                else {
-                    clearInterval(mopacityAction);
-                }
-            }, itself.opacityTime * 1000);
-        }
-        tempClearOpacity(self, opacityAction);
         if (CC_WECHATGAME) {
-            window.wx.showShareMenu({withShareTicket: true});//设置分享按钮，方便获取群id展示群排行榜
             this.tex = new cc.Texture2D();
             window.wx.postMessage({
                 messageType: 'post',

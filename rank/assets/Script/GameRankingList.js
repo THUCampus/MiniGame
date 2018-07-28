@@ -217,7 +217,6 @@ cc.Class({
                     wx.getFriendCloudStorage({
                         keyList: [gameNo],
                         success: res => {
-                            console.log("wx.getFriendCloudStorage success", res);
                             let data = res.data;
                             data.sort((a, b) => {
                                 if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {

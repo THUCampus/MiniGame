@@ -1,4 +1,4 @@
-const EMPTY_CELL = 0, ICE_CELL = 1, WALL_CELL = 2, ENEMY_MOVE = 32, PLAYER_MOVE = 16, PRINCESS_SAVE_SCORE = 5000, FRAME_RATE = 60;
+const EMPTY_CELL = 0, ICE_CELL = 1, WALL_CELL = 2, ENEMY_MOVE = 32, PLAYER_MOVE = 16, FRAME_RATE = 60;
 const BUTTON_CONTROL = 0, ROCKER_CONTROL = 1;
 
 cc.Class({
@@ -125,6 +125,9 @@ cc.Class({
         // 为了控制东西的遮挡关系，设置一个z的增加值。冰块和墙相当于是0
         bonusAdder: 0.1,
         starAdder: 0.2,
+        heroAdder: 0.5,
+        enemyAdder: 0.4,
+        princessAdder: 0,
 
         // 这个是WallPrefab的数组，在onLoad里初始化
         WallPrefab: [],
@@ -455,7 +458,7 @@ cc.Class({
         self.cells[self.princess.y][self.princess.x].NPCnum++;
         self.node.addChild(self.princess.NPC);
         self.princess.NPC.setScale(self.cellWidth / self.princess.NPC.width);
-        self.showPlayer(self, self.princess);
+        self.showPlayer(self, self.princess, 1);
 
         // showEnemies
         for (let enemy of self.enemiesData) {
@@ -488,13 +491,10 @@ cc.Class({
             self.createStar(self);
         }
 
-        console.log(self.bonusInfos);
         for (let bonusInfo of self.bonusInfos) {
             self.createBonus(self, bonusInfo);
         }
-        console.log("OK");
         for (let i = self.bonusInfos.length; i < self.bonusNum; i++) {
-            console.log(i, self.bonusNum);
             self.createBonus(self);
         }
     },
@@ -603,9 +603,6 @@ cc.Class({
         let j = Math.floor(Math.random() * self.cellsNumW);
         for (let data of self.bonusInfos) {
             if (data[0] === i && data[1] === j) {
-                console.log(data);
-                console.log(i, j);
-                console.log(self.bonusInfos)
                 return self.randomBonusInfo(self);
             }
         }
@@ -801,10 +798,15 @@ cc.Class({
         }
     },
 
-    showPlayer: function(self,self_who) {
+    showPlayer: function(self, self_who, princess = 0) {
         let NPCposition = self.getCellPosition(self, self_who.y, self_who.x);
         self_who.NPC.setPosition(NPCposition);
-        self_who.NPC.zIndex = -NPCposition.y;
+        if (!princess) {
+            self_who.NPC.zIndex = self.enemyAdder - NPCposition.y;
+        }
+        else {
+            self_who.NPC.zIndex = self.princessAdder - NPCposition.y;
+        }
     },
 
     showHero: function(self, move = true) {
@@ -817,7 +819,7 @@ cc.Class({
         else {
             self.hero.NPC.setPosition(NPCposition);
         }
-        self.hero.NPC.zIndex = -NPCposition.y;
+        self.hero.NPC.zIndex = self.heroAdder - NPCposition.y;
         if (!self.scrollViewItself.isScrolling() && move
         // 如果之前用户自己把小人拖出去了，就不要把它再拖进来了吧
         // 不能用cc.view.getFrameSize()！！！！！！！！！！！！！！！！！！！！！！！
@@ -1111,14 +1113,18 @@ cc.Class({
                 let m = self.opacityNums;
                 let opacityAction = setInterval(function() {
                     m--;
-                    self.cells[i][j].node.opacity = startOpacity * m / self.opacityNums;
+                    if (self.cells && self.cells[i] && self.cells[i][j] && m >= 0) {
+                        self.cells[i][j].node.opacity = startOpacity * m / self.opacityNums;
+                    }
+                    else {
+                        clearInterval(opacityAction);
+                        if (self.cells && self.cells[i] && self.cells[i][j]) {
+                            self.node.removeChild(self.cells[i][j].node);
+                            self.cells[i][j].node = null;
+                            self.cells[i][j].data = EMPTY_CELL;
+                        }
+                    }
                 }, self.iceOperateTime * 1000 / self.opacityNums);
-                setTimeout(()=>{
-                    clearInterval(opacityAction);
-                    self.node.removeChild(self.cells[i][j].node);
-                    self.cells[i][j].node = null;
-                    self.cells[i][j].data = EMPTY_CELL;
-                }, self.iceOperateTime * 1000);
             }
             else {
                 if (self.cells[i][j].node) {

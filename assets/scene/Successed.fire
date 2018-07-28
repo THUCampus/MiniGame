@@ -597,7 +597,7 @@
     "target": {
       "__id__": 2
     },
-    "component": "Successed",
+    "component": "GameOver",
     "handler": "loadRank",
     "customEventData": ""
   },
@@ -859,8 +859,8 @@
     "target": {
       "__id__": 2
     },
-    "component": "Successed",
-    "handler": "loadSelector",
+    "component": "GameOver",
+    "handler": "loadNow",
     "customEventData": ""
   },
   {
@@ -891,17 +891,18 @@
     "_fitHeight": false
   },
   {
-    "__type__": "c73e0VmMrJNvJO6LYeM6SRY",
+    "__type__": "361bfuIBQhKapzWi+00L1a0",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 2
     },
     "_enabled": true,
-    "rankshow": {
+    "label": null,
+    "display": {
       "__id__": 7
     },
-    "opacityNums": 100,
+    "opacityNums": 60,
     "opacityTime": 4
   }
 ]

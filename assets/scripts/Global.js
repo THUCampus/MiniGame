@@ -1,6 +1,5 @@
 // 全局变量！
 window.Global = {
-    test: 'hello world!',
     hNum: 20,
     wNum: 20,
     cells: [
