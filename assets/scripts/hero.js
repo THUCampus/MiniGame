@@ -30,6 +30,31 @@ cc.Class({
             // 公主
             this.game.savePricess();
             break;
+        case 36:
+            // 暂停彩蛋
+            this.game.setButtonControl(null, '5');
+            other.node.destroy();
+            break;
+        case 37:
+            // 无敌彩蛋
+            this.game.setButtonControl(null, '6');
+            other.node.destroy();
+            break;
+        case 38:
+            // 减速彩蛋
+            this.game.setButtonControl(null, '7');
+            other.node.destroy();
+            break;
+        case 39:
+            // 加速彩蛋
+            this.game.setButtonControl(null, '8');
+            other.node.destroy();
+            break;
+        case 40:
+            // 任意彩蛋
+            this.game.setButtonControl(null, (5 + Math.floor(Math.random() * 4)).toString());
+            other.node.destroy();
+            break;
         }
     },
 });

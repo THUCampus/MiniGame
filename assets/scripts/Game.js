@@ -47,6 +47,26 @@ cc.Class({
             default: null,
             type: cc.Prefab,
         },
+        BonusFearlessPrefab:{
+            default: null,
+            type: cc.Prefab,
+        },
+        BonusPausePrefab:{
+            default: null,
+            type: cc.Prefab,
+        },
+        BonusRandomPrefab:{
+            default: null,
+            type: cc.Prefab,
+        },
+        BonusSpeedUpPrefab:{
+            default: null,
+            type: cc.Prefab,
+        },
+        BonusSlowDownPrefab:{
+            default: null,
+            type: cc.Prefab,
+        },
 
         StarAudio:{
             default: null,
@@ -102,7 +122,8 @@ cc.Class({
         // 消除冰块时显示多少帧，现在是每秒60帧，也就是在iceOperateTime这0.3秒里面有18帧
         opacityNums: 18,
 
-        // 为了能够让星星在冰块前面，设置一个z的增加值
+        // 为了控制东西的遮挡关系，设置一个z的增加值。冰块和墙相当于是0
+        bonusAdder: 0.1,
         starAdder: 0.2,
 
         // 这个是WallPrefab的数组，在onLoad里初始化
@@ -147,6 +168,9 @@ cc.Class({
         nowZoom: 1,
 
         starPositions: [],
+
+        bonusNum: 6,
+        bonusInfos: [],
 
         // 成功之后设置为false避免继续移动
         controlable: true,
@@ -230,6 +254,14 @@ cc.Class({
                 self.enemiesData.push(enemyData);
             }
         }
+
+        if (Global.bonusNum >= 0 && Global.bonusNum < self.cellsNumW * self.cellsNumH) {
+            self.bonusNum = Global.bonusNum;
+        }
+        if (Global.bonusInfos.length <= self.bonusNum) {
+            self.bonusInfos = Global.bonusInfos;
+        }
+
         if (Global.starNum >= 0 && Global.starNum < self.cellsNumW * self.cellsNumH) {
             self.starInitNum = Global.starNum;
         }
@@ -342,6 +374,7 @@ cc.Class({
 
         this.nowZoom = 1;
         this.starPositions = [];
+        this.bonusInfos = [];
 
         this.scrollViewItself = this.scrollView.getComponent('cc.ScrollView');
 
@@ -454,6 +487,16 @@ cc.Class({
         for (let i = self.starPositions.length; i < self.starInitNum; i++) {
             self.createStar(self);
         }
+
+        console.log(self.bonusInfos);
+        for (let bonusInfo of self.bonusInfos) {
+            self.createBonus(self, bonusInfo);
+        }
+        console.log("OK");
+        for (let i = self.bonusInfos.length; i < self.bonusNum; i++) {
+            console.log(i, self.bonusNum);
+            self.createBonus(self);
+        }
     },
 
     start() {
@@ -553,6 +596,61 @@ cc.Class({
         star.setScale(self.cellHeight / star.height);
         star.zIndex = self.starAdder - newPosition.y;
         self.starNum++;
+    },
+
+    randomBonusInfo: function(self) {
+        let i = Math.floor(Math.random() * self.cellsNumH);
+        let j = Math.floor(Math.random() * self.cellsNumW);
+        for (let data of self.bonusInfos) {
+            if (data[0] === i && data[1] === j) {
+                console.log(data);
+                console.log(i, j);
+                console.log(self.bonusInfos)
+                return self.randomBonusInfo(self);
+            }
+        }
+        // 不要和主人公重合！
+        if ((self.hero.x === j && self.hero.y === i) || 
+            (self.princessX === j && self.princessY === i) ||
+            !(self.cells[i][j].data === EMPTY_CELL || self.cells[i][j].data === ICE_CELL)) {
+            return self.randomBonusInfo(self);
+        }
+        return [i, j, Math.floor(Math.random() * 5)];
+    },
+
+    createBonus: function(self, bonusInfo = null) {
+        if (!bonusInfo || bonusInfo.length < 3) {
+            bonusInfo = self.randomBonusInfo(self);
+            self.bonusInfos.push(bonusInfo);
+        }
+        let bonus = null;
+        switch (bonusInfo[2]) {
+            case 0:
+                // 暂停彩蛋
+                bonus = cc.instantiate(this.BonusPausePrefab);
+                break;
+            case 1:
+                // 无敌彩蛋
+                bonus = cc.instantiate(this.BonusFearlessPrefab);
+                break;
+            case 2:
+                // 减速彩蛋
+                bonus = cc.instantiate(this.BonusSlowDownPrefab);
+                break;
+            case 3:
+                // 加速彩蛋
+                bonus = cc.instantiate(this.BonusSpeedUpPrefab);
+                break;
+            default:
+                // 任意彩蛋
+                bonus = cc.instantiate(this.BonusRandomPrefab);
+                break;
+        }
+        this.node.addChild(bonus);
+        let newPosition = self.getCellPosition(self, bonusInfo[0], bonusInfo[1]);
+        bonus.setPosition(newPosition);
+        bonus.setScale(self.cellHeight / bonus.height);
+        bonus.zIndex = self.bonusAdder - newPosition.y;
     },
 
     zoomBigger: function(self) {
@@ -850,18 +948,6 @@ cc.Class({
                 case cc.KEY.space:
                 case cc.KEY.enter:
                     self.setButtonControl(self, '4');
-                    break;
-                case cc.KEY.num5:
-                    self.setButtonControl(self, '5');
-                    break;
-                case cc.KEY.num6:
-                    self.setButtonControl(self, '6');
-                    break;
-                case cc.KEY.num7:
-                    self.setButtonControl(self, '7');
-                    break;
-                case cc.KEY.num8:
-                    self.setButtonControl(self, '8');
                     break;
             }
         });
