@@ -6,7 +6,7 @@ cc.Class({
             default: null,
             type: cc.Sprite,
         },
-        opacityNums: 100,
+        opacityNums: 60,
         opacityTime: 4,
     },
 

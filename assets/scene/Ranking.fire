@@ -819,7 +819,7 @@
       "__id__": 2
     },
     "component": "Ranking",
-    "handler": "loadStart",
+    "handler": "loadSelector",
     "customEventData": ""
   },
   {
