@@ -21,7 +21,7 @@ window.Global = {
     starPosition: [],
     bonusNum: 6,
     bonusInfos: [],
-    failInfo: "哈哈哈哈哈哈哈哈哈哈哈哈你输了吧",
+    failInfo: '哈哈哈哈哈哈哈哈哈哈哈哈你输了吧',
     princessX: 9,
     princessY: 9,
     enemyNum: 2,

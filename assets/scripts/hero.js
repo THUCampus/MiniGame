@@ -22,7 +22,7 @@ cc.Class({
                 Global.gameScore -= 100;
             }
             else {
-                Global.failInfo = "哈哈哈哈哈哈哈哈哈你输了吧~";
+                Global.failInfo = '哈哈哈哈哈哈哈哈哈你输了吧~';
                 this.game.gameOver();
             }
             break;

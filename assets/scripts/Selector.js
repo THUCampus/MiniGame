@@ -37,7 +37,7 @@ cc.Class({
             starPosition: [],
             bonusNum: 6,
             bonusInfos: [],
-            failInfo: "哈哈哈哈哈哈哈哈哈哈哈哈你输了吧",
+            failInfo: '哈哈哈哈哈哈哈哈哈哈哈哈你输了吧',
             princessX: 9,
             princessY: 9,
             enemyNum: 2,
@@ -56,7 +56,7 @@ cc.Class({
         for (let i = 0; i < this.num; i++) {
             let levelSelector = cc.instantiate(this.levelSelectorPrefab);
             this.node.addChild(levelSelector);
-            levelSelector.on("click", ()=>{
+            levelSelector.on('click', ()=>{
                 this.loadData(i);
             });
             let x = 0;
@@ -68,7 +68,7 @@ cc.Class({
             }
             levelSelector.setPosition(x, this.heightAdderFirst - this.singleHeight * Math.ceil((i + 1) / 3));
             levelSelector.children[0].getComponent('cc.Label').string = '第' + (i + 1).toString() + '关';
-        };
+        }
     },
 
     // 深复制，数组和对象的情况
@@ -81,7 +81,7 @@ cc.Class({
             }
         }
         else if (data instanceof Object) {
-            ans = {}
+            ans = {};
             for (var i in data) {
                 ans[i] = this.deepCopy(data[i]);
             }
@@ -98,6 +98,6 @@ cc.Class({
         for (let temp in nowData) {
             Global[temp] = this.deepCopy(nowData[temp]);
         }
-        cc.director.loadScene("Main");
+        cc.director.loadScene('Main');
     }
 });

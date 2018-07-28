@@ -9,11 +9,11 @@ cc.Class({
     },
 
     loadStart: function() {
-        cc.director.loadScene("Start");
+        cc.director.loadScene('Start');
     },
 
     loadSelector: function() {
-        cc.director.loadScene("Selector");
+        cc.director.loadScene('Selector');
     },
 
     start() {
@@ -46,7 +46,7 @@ cc.Class({
         if (CC_WECHATGAME) {
             window.wx.postMessage({
                 messageType: 3,
-                MAIN_MENU_NUM: "x1",
+                MAIN_MENU_NUM: 'x1',
                 score: gameScore,
             });
         }

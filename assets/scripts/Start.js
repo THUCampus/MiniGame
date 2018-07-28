@@ -6,7 +6,7 @@ cc.Class({
             default: null,
             url: cc.AudioClip
         },
-     },
+    },
 
     onLoad(){
         cc.audioEngine.stopAllEffects();
@@ -14,10 +14,10 @@ cc.Class({
     },
 
     loadSelector: function(event, data) {
-        cc.director.loadScene("Selector");
+        cc.director.loadScene('Selector');
     },
 
     loadHelp: function(event, data) {
-        cc.director.loadScene("Help");
+        cc.director.loadScene('Help');
     },
 });

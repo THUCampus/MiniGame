@@ -212,7 +212,7 @@ cc.Class({
             this.success();
         }
         else {
-            Global.failInfo = "bingo~公主生气了不要你了~";
+            Global.failInfo = 'bingo~公主生气了不要你了~';
             this.gameOver();
         }
     },
@@ -220,7 +220,7 @@ cc.Class({
     success: function() {
         this.controlable = false;
         this.gameover = true;
-        cc.director.loadScene("Successed");
+        cc.director.loadScene('Successed');
     },
 
     initWidthHeightLoadData: function(self) {
@@ -237,8 +237,8 @@ cc.Class({
         if (Global.princessX >= 0 && Global.princessY >= 0
             && Global.princessX < self.cellsNumW && Global.princessY < self.cellsNumH
         ) {
-           self.princessX = Global.princessX;
-           self.princessY = Global.princessY;
+            self.princessX = Global.princessX;
+            self.princessY = Global.princessY;
         }
         if (Global.enemyNum >= 0) {
             self.enemiesNum = Global.enemyNum;
@@ -468,7 +468,7 @@ cc.Class({
                 y: enemy[0],
                 seconds: 0,
                 moveSeconds: enemy[3],
-            })
+            });
         }
         for (let i = self.enemies.length; i < self.enemiesNum; i++) {
             self.enemies.push(self.createRandomNewEnemy(self));
@@ -622,26 +622,26 @@ cc.Class({
         }
         let bonus = null;
         switch (bonusInfo[2]) {
-            case 0:
-                // 暂停彩蛋
-                bonus = cc.instantiate(this.BonusPausePrefab);
-                break;
-            case 1:
-                // 无敌彩蛋
-                bonus = cc.instantiate(this.BonusFearlessPrefab);
-                break;
-            case 2:
-                // 减速彩蛋
-                bonus = cc.instantiate(this.BonusSlowDownPrefab);
-                break;
-            case 3:
-                // 加速彩蛋
-                bonus = cc.instantiate(this.BonusSpeedUpPrefab);
-                break;
-            default:
-                // 任意彩蛋
-                bonus = cc.instantiate(this.BonusRandomPrefab);
-                break;
+        case 0:
+            // 暂停彩蛋
+            bonus = cc.instantiate(this.BonusPausePrefab);
+            break;
+        case 1:
+            // 无敌彩蛋
+            bonus = cc.instantiate(this.BonusFearlessPrefab);
+            break;
+        case 2:
+            // 减速彩蛋
+            bonus = cc.instantiate(this.BonusSlowDownPrefab);
+            break;
+        case 3:
+            // 加速彩蛋
+            bonus = cc.instantiate(this.BonusSpeedUpPrefab);
+            break;
+        default:
+            // 任意彩蛋
+            bonus = cc.instantiate(this.BonusRandomPrefab);
+            break;
         }
         this.node.addChild(bonus);
         let newPosition = self.getCellPosition(self, bonusInfo[0], bonusInfo[1]);
@@ -696,18 +696,18 @@ cc.Class({
                 return;
             }
             else {
-               if(delta_y < 0) {
-                   if(self.moveToWhere(self, self_who, -1, 0)) {//enemy向下移动
-                       return;
-                   }
-                   else {
-                       if(self.moveToWhere(self,self_who,0,1)) {//enemy向右移
+                if(delta_y < 0) {
+                    if(self.moveToWhere(self, self_who, -1, 0)) {//enemy向下移动
+                        return;
+                    }
+                    else {
+                        if(self.moveToWhere(self,self_who,0,1)) {//enemy向右移
                             return;
-                       }
-                       self.moveToWhere(self,self_who,1,0);//enemy向上移动
-                   }
-               }
-               else if(delta_y === 0) {
+                        }
+                        self.moveToWhere(self,self_who,1,0);//enemy向上移动
+                    }
+                }
+                else if(delta_y === 0) {
                     if(self.moveToWhere(self, self_who, -1, 0)) {//enemy向下移动
                         return;
                     }
@@ -717,16 +717,16 @@ cc.Class({
                         }
                         self.moveToWhere(self,self_who,0,1);//enemy向右移动
                     }
-               }
-               else if(delta_y > 0) {
-                   if(self.moveToWhere(self,self_who,1,0)) {//enemy向上移动
-                       return;
-                   }
-                   else if(self.moveToWhere(self,self_who,0,1)) {//enemy向右移动
-                       return;
-                   }
-                   self.moveToWhere(self,self_who,-1,0);//enemy向下移动
-               }
+                }
+                else if(delta_y > 0) {
+                    if(self.moveToWhere(self,self_who,1,0)) {//enemy向上移动
+                        return;
+                    }
+                    else if(self.moveToWhere(self,self_who,0,1)) {//enemy向右移动
+                        return;
+                    }
+                    self.moveToWhere(self,self_who,-1,0);//enemy向下移动
+                }
             }
         }
         else if(delta_x === 0) {
@@ -755,7 +755,7 @@ cc.Class({
                 else if(self.moveToWhere(self,self_who,0,1)) {
                     return;
                 }
-                self.moveToWhere(self,self_who,1,0)
+                self.moveToWhere(self,self_who,1,0);
             }
         }
         else if(delta_x > 0) {
@@ -763,18 +763,18 @@ cc.Class({
                 return;
             }
             else {
-               if(delta_y < 0) {
-                   if(self.moveToWhere(self, self_who, -1, 0)) {//enemy向下移动
-                       return;
-                   }
-                   else {
-                       if(self.moveToWhere(self,self_who,0,-1)) {//enemy向left移
+                if(delta_y < 0) {
+                    if(self.moveToWhere(self, self_who, -1, 0)) {//enemy向下移动
+                        return;
+                    }
+                    else {
+                        if(self.moveToWhere(self,self_who,0,-1)) {//enemy向left移
                             return;
-                       }
-                       self.moveToWhere(self,self_who,1,0);//enemy向上移动
-                   }
-               }
-               else if(delta_y === 0) {
+                        }
+                        self.moveToWhere(self,self_who,1,0);//enemy向上移动
+                    }
+                }
+                else if(delta_y === 0) {
                     if(self.moveToWhere(self, self_who, -1, 0)) {//enemy向下移动
                         return;
                     }
@@ -784,16 +784,16 @@ cc.Class({
                         }
                         self.moveToWhere(self,self_who,0,-1);//enemy向left移动
                     }
-               }
-               else if(delta_y > 0) {
-                   if(self.moveToWhere(self,self_who,1,0)) {//enemy向上移动
-                       return;
-                   }
-                   else if(self.moveToWhere(self,self_who,0,-1)) {//enemy向left移动
-                       return;
-                   }
-                   self.moveToWhere(self,self_who,-1,0);//enemy向下移动
-               }
+                }
+                else if(delta_y > 0) {
+                    if(self.moveToWhere(self,self_who,1,0)) {//enemy向上移动
+                        return;
+                    }
+                    else if(self.moveToWhere(self,self_who,0,-1)) {//enemy向left移动
+                        return;
+                    }
+                    self.moveToWhere(self,self_who,-1,0);//enemy向下移动
+                }
             }
         }
     },
@@ -862,20 +862,20 @@ cc.Class({
         if (!self.pressed) {
             self.pressed = true;
             switch(data) {
-                case 'a':
-                    self.direction = 'a';
-                    break;
-                case 'd':
-                    self.direction = 'd';
-                    break;
-                case 's':
-                    self.direction = 's';
-                    break;
-                case 'w':
-                    self.direction = 'w';
-                    break;
-                default:
-                    move = false;
+            case 'a':
+                self.direction = 'a';
+                break;
+            case 'd':
+                self.direction = 'd';
+                break;
+            case 's':
+                self.direction = 's';
+                break;
+            case 'w':
+                self.direction = 'w';
+                break;
+            default:
+                move = false;
             }
             if (move) {
                 self.tupdate(self);
@@ -886,32 +886,32 @@ cc.Class({
             }
         }
         switch(data) {
-            case '1':
-                self.zoomSmaller(self);
-                break;
-            case '2':
-                self.zoomNormal(self);
-                break;
-            case '3':
-                self.zoomBigger(self);
-                break;
-            case '4':
-                if (self.enableIceOperation) {
-                    self.iceOperate(self);
-                }
-                break;
-            case '5':
-                self.enemyStopTime(self, 5);
-                break;
-            case '6':
-                self.fearless(self, 5);
-                break;
-            case '7':
-                self.heroSpeedChange(self, 50, 5);
-                break;
-            case '8':
-                self.heroSpeedChange(self, 6, -1);
-                break;
+        case '1':
+            self.zoomSmaller(self);
+            break;
+        case '2':
+            self.zoomNormal(self);
+            break;
+        case '3':
+            self.zoomBigger(self);
+            break;
+        case '4':
+            if (self.enableIceOperation) {
+                self.iceOperate(self);
+            }
+            break;
+        case '5':
+            self.enemyStopTime(self, 5);
+            break;
+        case '6':
+            self.fearless(self, 5);
+            break;
+        case '7':
+            self.heroSpeedChange(self, 50, 5);
+            break;
+        case '8':
+            self.heroSpeedChange(self, 6, -1);
+            break;
         }
     },
 
@@ -921,36 +921,36 @@ cc.Class({
         // 有按键按下时，判断是否是我们指定的方向控制键，并设置向对应方向加速
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, function (event) {
             switch(event.keyCode) {
-                case cc.KEY.a:
-                case cc.KEY.left:
-                    self.setButtonControl(self, 'a');
-                    break;
-                case cc.KEY.d:
-                case cc.KEY.right:
-                    self.setButtonControl(self, 'd');
-                    break;
-                case cc.KEY.s:
-                case cc.KEY.down:
-                    self.setButtonControl(self, 's');
-                    break;
-                case cc.KEY.w:
-                case cc.KEY.up:
-                    self.setButtonControl(self, 'w');
-                    break;
-                case cc.KEY.num1:
-                    self.setButtonControl(self, '1');
-                    break;
-                case cc.KEY.num2:
-                    self.setButtonControl(self, '2');
-                    break;
-                case cc.KEY.num3:
-                    self.setButtonControl(self, '3');
-                    break;
-                case cc.KEY.num4:
-                case cc.KEY.space:
-                case cc.KEY.enter:
-                    self.setButtonControl(self, '4');
-                    break;
+            case cc.KEY.a:
+            case cc.KEY.left:
+                self.setButtonControl(self, 'a');
+                break;
+            case cc.KEY.d:
+            case cc.KEY.right:
+                self.setButtonControl(self, 'd');
+                break;
+            case cc.KEY.s:
+            case cc.KEY.down:
+                self.setButtonControl(self, 's');
+                break;
+            case cc.KEY.w:
+            case cc.KEY.up:
+                self.setButtonControl(self, 'w');
+                break;
+            case cc.KEY.num1:
+                self.setButtonControl(self, '1');
+                break;
+            case cc.KEY.num2:
+                self.setButtonControl(self, '2');
+                break;
+            case cc.KEY.num3:
+                self.setButtonControl(self, '3');
+                break;
+            case cc.KEY.num4:
+            case cc.KEY.space:
+            case cc.KEY.enter:
+                self.setButtonControl(self, '4');
+                break;
             }
         });
     },
@@ -960,30 +960,30 @@ cc.Class({
         Global.gameScore -= 13;
 
         switch (self.direction) {
-            case 's':
-                if (self.hero.y > 0 && self.cells[self.hero.y - 1][self.hero.x].data <= 0) {
-                    self.hero.y -= 1;
-                }
-                self.hero.NPC.runAction(cc.rotateTo(0, 180), self.actionTimeRotate);
-                break;
-            case 'w':
-                if (self.hero.y < self.cellsNumH - 1 && self.cells[self.hero.y + 1][self.hero.x].data <= 0) {
-                    self.hero.y += 1;
-                }
-                self.hero.NPC.runAction(cc.rotateTo(0, 0), self.actionTimeRotate);
-                break;
-            case 'a':
-                if (self.hero.x > 0 && self.cells[self.hero.y][self.hero.x - 1].data <= 0) {
-                    self.hero.x -= 1;
-                }
-                self.hero.NPC.runAction(cc.rotateTo(0, 270), self.actionTimeRotate);
-                break;
-            case 'd':
-                if (self.hero.x < self.cellsNumW - 1 && self.cells[self.hero.y][self.hero.x + 1].data <= 0) {
-                    self.hero.x += 1;
-                }
-                self.hero.NPC.runAction(cc.rotateTo(0, 90), self.actionTimeRotate);
-                break;
+        case 's':
+            if (self.hero.y > 0 && self.cells[self.hero.y - 1][self.hero.x].data <= 0) {
+                self.hero.y -= 1;
+            }
+            self.hero.NPC.runAction(cc.rotateTo(0, 180), self.actionTimeRotate);
+            break;
+        case 'w':
+            if (self.hero.y < self.cellsNumH - 1 && self.cells[self.hero.y + 1][self.hero.x].data <= 0) {
+                self.hero.y += 1;
+            }
+            self.hero.NPC.runAction(cc.rotateTo(0, 0), self.actionTimeRotate);
+            break;
+        case 'a':
+            if (self.hero.x > 0 && self.cells[self.hero.y][self.hero.x - 1].data <= 0) {
+                self.hero.x -= 1;
+            }
+            self.hero.NPC.runAction(cc.rotateTo(0, 270), self.actionTimeRotate);
+            break;
+        case 'd':
+            if (self.hero.x < self.cellsNumW - 1 && self.cells[self.hero.y][self.hero.x + 1].data <= 0) {
+                self.hero.x += 1;
+            }
+            self.hero.NPC.runAction(cc.rotateTo(0, 90), self.actionTimeRotate);
+            break;
         }
         self.showHero(self);
     },
@@ -998,18 +998,18 @@ cc.Class({
         let adder_x = 0, adder_y = 0;
         
         switch(self.direction) {
-            case 'w':
-                adder_y = 1;
-                break;
-            case 's':
-                adder_y = -1;
-                break;
-            case 'a':
-                adder_x = -1;
-                break;
-            case 'd':
-                adder_x = 1;
-                break;
+        case 'w':
+            adder_y = 1;
+            break;
+        case 's':
+            adder_y = -1;
+            break;
+        case 'a':
+            adder_x = -1;
+            break;
+        case 'd':
+            adder_x = 1;
+            break;
         }
         hero_x += adder_x;
         hero_y += adder_y;
@@ -1018,14 +1018,14 @@ cc.Class({
                 function addCheck() {
                     if (0 <= hero_x && 0 <= hero_y && hero_x < self.cellsNumW && hero_y < self.cellsNumH &&
                         self.cells[hero_y][hero_x].data === ICE_CELL) {
-                            self.deleteIce(self, hero_y, hero_x);
-                            cc.audioEngine.playEffect(self.iceBreakAudio,false);
-                            setTimeout(()=>{
-                                hero_x += adder_x;
-                                hero_y += adder_y;
-                                addCheck();
-                            }, self.iceOperateTime * 1000);
-                        }
+                        self.deleteIce(self, hero_y, hero_x);
+                        cc.audioEngine.playEffect(self.iceBreakAudio,false);
+                        setTimeout(()=>{
+                            hero_x += adder_x;
+                            hero_y += adder_y;
+                            addCheck();
+                        }, self.iceOperateTime * 1000);
+                    }
                     else {
                         self.enableIceOperation = true;
                     }
@@ -1037,14 +1037,14 @@ cc.Class({
                 function deleteCheck() {
                     if (0 <= hero_x && 0 <= hero_y && hero_x < self.cellsNumW && hero_y < self.cellsNumH &&
                         self.cells[hero_y][hero_x].data === EMPTY_CELL && self.cells[hero_y][hero_x].NPCnum === 0) {
-                            self.drawIce(self, hero_y, hero_x, true, nowDirection);
-                            cc.audioEngine.playEffect(self.iceAudio,false);
-                            setTimeout(()=>{
-                                hero_x += adder_x;
-                                hero_y += adder_y;
-                                deleteCheck();
-                            }, self.iceOperateTime * 1000);
-                        }
+                        self.drawIce(self, hero_y, hero_x, true, nowDirection);
+                        cc.audioEngine.playEffect(self.iceAudio,false);
+                        setTimeout(()=>{
+                            hero_x += adder_x;
+                            hero_y += adder_y;
+                            deleteCheck();
+                        }, self.iceOperateTime * 1000);
+                    }
                     else {
                         self.enableIceOperation = true;
                     }
@@ -1140,7 +1140,7 @@ cc.Class({
         this.controlable = false;
         this.gameover = true;
         Global.gameScore = -1;
-        cc.director.loadScene("GameOver");
+        cc.director.loadScene('GameOver');
     },
 
     // 彩蛋，让小怪停一会
@@ -1195,9 +1195,9 @@ cc.Class({
 
     update(dt) {
         if (!this.gameover) {
-            Global.gameScore -= this.enableIceOperation ? 1 / 60 : 1 / 10
+            Global.gameScore -= this.enableIceOperation ? 1 / 60 : 1 / 10;
             if (Global.gameScore < 0) {
-                Global.failInfo = "hhh居然都负分了，tcl";
+                Global.failInfo = 'hhh居然都负分了，tcl';
                 this.gameOver();
             }
             // 安卓版小游戏不支持对勾这个图标……换一个不太搭的吧

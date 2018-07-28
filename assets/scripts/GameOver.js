@@ -21,7 +21,7 @@ cc.Class({
     },
 
     loadNow: function(event, data) {
-        cc.director.loadScene("Selector");
+        cc.director.loadScene('Selector');
     },
 
     
@@ -53,7 +53,7 @@ cc.Class({
     },
 
     loadRank: function() {
-        cc.director.loadScene("Ranking");
+        cc.director.loadScene('Ranking');
     },
 
     _updateSubDomainCanvas () {

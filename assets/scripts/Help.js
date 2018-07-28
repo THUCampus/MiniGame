@@ -4,6 +4,6 @@ cc.Class({
     properties: { },
 
     loadStart: function(event, data) {
-        cc.director.loadScene("Start");
+        cc.director.loadScene('Start');
     },
 });
