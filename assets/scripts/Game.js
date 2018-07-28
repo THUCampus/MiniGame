@@ -680,7 +680,6 @@ cc.Class({
             self_who.y += delta_y;
             self_who.x += delta_x;
             enemyPosition = self.getCellPosition(self, self_who.y, self_who.x);
-            // self_who.NPC.runAction(cc.moveTo(self.actionTimeMove*5,enemyPosition));
             self_who.NPC.setPosition(enemyPosition);
             self.cells[self_who.y][self_who.x].NPCnum++;
             return true;

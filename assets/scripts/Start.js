@@ -20,4 +20,8 @@ cc.Class({
     loadHelp: function(event, data) {
         cc.director.loadScene('Help');
     },
+
+    loadIntroduction: function(event, data) {
+        cc.director.loadScene('Introduction');
+    },
 });

@@ -99,5 +99,9 @@ cc.Class({
             Global[temp] = this.deepCopy(nowData[temp]);
         }
         cc.director.loadScene('Main');
+    },
+
+    loadStart: function() {
+        cc.director.loadScene('Start');
     }
 });
