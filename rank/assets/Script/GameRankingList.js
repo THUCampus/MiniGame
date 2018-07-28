@@ -2,9 +2,9 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        rankingScrollView: {
+        rankingScrollLayout: {
             default: null,
-            type: cc.ScrollView,
+            type: cc.Node,
         },
         scrollViewContent: {
             default: null,
@@ -56,18 +56,26 @@ cc.Class({
     },
 
     submitScoreGameOverRank(gameNo, score) { //提交得分
-        score = Math.ceil(score);
-        this.scoreLabel.getComponent('cc.Label').string = '第' + (parseInt(gameNo) + 1).toString() + '关，此次得分：' + score.toString();
+        if (score >= 0) {
+            score = Math.ceil(score);
+            this.scoreLabel.getComponent('cc.Label').string = '第' + (parseInt(gameNo) + 1).toString() + '关，此次得分：' + score.toString();
+        }
+        else {
+            this.scoreLabel.getComponent('cc.Label').string = '第' + (parseInt(gameNo) + 1).toString() + '关，凉凉';
+        }
         if (CC_WECHATGAME) {
             window.wx.getUserCloudStorage({
                 // 以key/value形式存储
                 keyList: [gameNo],
                 success: function (getres) {
                     if (getres.KVDataList.length != 0 && getres.KVDataList[0].value > score) {
-                        score = getres.KVDataList[0].value;
+                        score = getres.KVDataList[0].value.toString();
                     }
                     else {
                         // 对用户托管数据进行写数据操作
+                        if (score < 0) {
+                            score = 0;
+                        }
                         window.wx.setUserCloudStorage({
                             KVDataList: [{key: gameNo, value: score.toString()}]
                         });
@@ -102,6 +110,10 @@ cc.Class({
                             });
                             for (let i = 0; i < data.length; i++) {
                                 if (data[i].avatarUrl == userData.avatarUrl) {
+                                    // 避免更新成绩上传的时间影响
+                                    if (score > 0) {
+                                        data[i].KVDataList[0].value = score.toString();
+                                    }
                                     if ((i - 1) >= 0) {
                                         if ((i + 1) >= data.length && (i - 2) >= 0) {
                                             let userItem = cc.instantiate(this.prefabGameOverRank);
@@ -150,7 +162,7 @@ cc.Class({
 
     removeChild() {
         this.node.removeChildByTag(1000);
-        this.rankingScrollView.node.active = false;
+        this.rankingScrollLayout.active = false;
         this.scrollViewContent.removeAllChildren();
         this.gameOverRankView.active = false;
         this.gameOverRankLayout.removeAllChildren();
@@ -160,7 +172,7 @@ cc.Class({
 
     fetchFriendData(gameNo) {
         this.removeChild();
-        this.rankingScrollView.node.active = true;
+        this.rankingScrollLayout.active = true;
         if (CC_WECHATGAME) {
             wx.getUserInfo({
                 openIdList: ['selfOpenId'],

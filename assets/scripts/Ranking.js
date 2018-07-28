@@ -12,6 +12,10 @@ cc.Class({
         cc.director.loadScene("Start");
     },
 
+    loadSelector: function() {
+        cc.director.loadScene("Selector");
+    },
+
     start() {
         // following is to show score list in ranking
         if (CC_WECHATGAME) {

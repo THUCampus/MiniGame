@@ -174,7 +174,6 @@ cc.Class({
 
     savePricess: function() {
         if (this.pickedAllStars) {
-            Global.gameScore += PRINCESS_SAVE_SCORE;
             this.success();
         }
         else {
@@ -1016,6 +1015,7 @@ cc.Class({
     gameOver: function() {
         this.controlable = false;
         this.gameover = true;
+        Global.gameScore = -1;
         cc.director.loadScene("GameOver");
     },
 
@@ -1070,46 +1070,47 @@ cc.Class({
     },
 
     update(dt) {
-        Global.gameScore -= this.enableIceOperation ? 1 / 60 : 1 / 10
-        if (Global.gameScore < 0) {
-            Global.failInfo = "hhh居然都负分了，tcl";
-            this.gameOver();
-        }
-        // 安卓版小游戏不支持对勾这个图标……换一个不太搭的吧
-        // this.label.getComponent('cc.Label').string = this.starNum.toString() + '\n' + Math.ceil(Global.gameScore).toString() + '\n' + (this.enableIceOperation ? '✔️' : '❌');
-        this.label.getComponent('cc.Label').string = this.starNum.toString() + '\n' + Math.ceil(Global.gameScore).toString() + '\n' + (this.enableIceOperation ? '✅' : '❌');
-
-        if (this.enemyStopped) {
-            this.enemyStoppedCount--;
-            if (this.enemyStoppedCount <= 0) {
-                this.enemyStopped = false;
+        if (!this.gameover) {
+            Global.gameScore -= this.enableIceOperation ? 1 / 60 : 1 / 10
+            if (Global.gameScore < 0) {
+                Global.failInfo = "hhh居然都负分了，tcl";
+                this.gameOver();
             }
-        }
-        else {
-            for (let enemy of this.enemies) {
-                enemy.seconds += 1;
-                if (enemy.seconds >= enemy.moveSeconds) {
-                    enemy.seconds = 0;
-                    this.enemyAutoOperate(this, enemy);
+            // 安卓版小游戏不支持对勾这个图标……换一个不太搭的吧
+            // this.label.getComponent('cc.Label').string = this.starNum.toString() + '\n' + Math.ceil(Global.gameScore).toString() + '\n' + (this.enableIceOperation ? '✔️' : '❌');
+            this.label.getComponent('cc.Label').string = this.starNum.toString() + '\n' + Math.ceil(Global.gameScore).toString() + '\n' + (this.enableIceOperation ? '✅' : '❌');
+
+            if (this.enemyStopped) {
+                this.enemyStoppedCount--;
+                if (this.enemyStoppedCount <= 0) {
+                    this.enemyStopped = false;
                 }
             }
-        }
+            else {
+                for (let enemy of this.enemies) {
+                    enemy.seconds += 1;
+                    if (enemy.seconds >= enemy.moveSeconds) {
+                        enemy.seconds = 0;
+                        this.enemyAutoOperate(this, enemy);
+                    }
+                }
+            }
 
-        if (this.heroFearless) {
-            this.heroFearlessCount--;
-            if (this.heroFearlessCount <= 0) {
-                this.heroFearless = false;
-                this.hero.NPC.opacity = 255;
+            if (this.heroFearless) {
+                this.heroFearlessCount--;
+                if (this.heroFearlessCount <= 0) {
+                    this.heroFearless = false;
+                    this.hero.NPC.opacity = 255;
+                }
+            }
+
+            this.playerSecond += 1;
+            if(this.playerSecond >= this.moveSeconds){
+                if(this.moveDir){
+                    this.updatePlayerPos();
+                }
+                this.playerSecond = 0;
             }
         }
-
-        this.playerSecond += 1;
-        if(this.playerSecond >= this.moveSeconds){
-            if(this.moveDir){
-                this.updatePlayerPos();
-            }
-            this.playerSecond = 0;
-        }
-
     },
 });
