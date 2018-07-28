@@ -36,12 +36,34 @@ cc.Class({
         };
     },
 
+    // 深复制，数组和对象的情况
+    deepCopy: function(data) {
+        let ans = null;
+        if (data instanceof Array) {
+            ans = [];
+            for (let i = 0; i < data.length; i++) {
+                ans[i] = this.deepCopy(data[i]);
+            }
+        }
+        else if (data instanceof Object) {
+            ans = {}
+            for (var i in data) {
+                ans[i] = this.deepCopy(data[i]);
+            }
+        }
+        else {
+            ans = data;
+        }
+        return ans;
+    },
+
     loadData(data) {
         Global.gameNo = data;
         let nowData = Global.gamedata[data];
         for (let temp in nowData) {
-            Global[temp] = nowData[temp];
+            Global[temp] = this.deepCopy(nowData[temp]);
         }
+        console.log(nowData)
         cc.director.loadScene("Main");
     }
 });

@@ -36,6 +36,7 @@ window.Global = {
 cc.Class({
     extends: cc.Component,
     properties: { },
+
     onLoad() {
         cc.loader.loadRes('games', function (err, object) {
             if (err) {

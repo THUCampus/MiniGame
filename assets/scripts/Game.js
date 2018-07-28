@@ -221,14 +221,6 @@ cc.Class({
                 }
                 self.enemiesData.push(enemyData);
             }
-            else {
-                console.log(enemyData)
-                console.log(self)
-                console.log(!(enemyData[1] === self.heroX && enemyData[0] === self.heroY))
-                console.log(enemyData[1] === self.heroX)
-                console.log(enemyData[0] === self.heroY)
-                
-            }
         }
         if (Global.starNum >= 0 && Global.starNum < self.cellsNumW * self.cellsNumH) {
             self.starInitNum = Global.starNum;
@@ -425,7 +417,6 @@ cc.Class({
         }
         for (let i = self.starPositions.length; i < self.starInitNum; i++) {
             self.createStar(self);
-            console.log("Error! Random star!")
         }
     },
 
@@ -458,13 +449,11 @@ cc.Class({
                 newOffset.x -= cc.view.getVisibleSize().width / 2 - newWorldPosition.x;
                 newOffset.y += cc.view.getVisibleSize().height / 2 - newWorldPosition.y;
                 self.scrollViewItself.scrollToOffset(newOffset, 0);
-                // console.log(newOffset);
             }
         }, 0);
     },
 
     createRandomNewEnemy: function(self) {
-        console.log("Error! Random enemy!")
         let i = Math.floor(Math.random() * self.cellsNumH);
         let j = Math.floor(Math.random() * self.cellsNumW);
         let type = Math.floor(Math.random() * self.EnemyPrefab.length);
@@ -569,8 +558,6 @@ cc.Class({
     },
 
     enemyAutoOperate: function(self,self_who) {
-        // console.log("start move");
-    
         let delta_y = self.hero.y - self_who.y;
         let delta_x = self.hero.x - self_who.x;
         if(delta_x < 0) {
