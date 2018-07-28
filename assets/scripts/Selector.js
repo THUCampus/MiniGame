@@ -17,7 +17,7 @@ cc.Class({
 
     onLoad() {
         this.num = Global.gamedata.length;
-        this.content.height = this.singleHeight * Math.ceil(this.num / 3 + 1);
+        this.content.height = this.singleHeight * Math.ceil(this.num / 3 + 1) - this.heightAdderFirst * 2;
         for (let i = 0; i < this.num; i++) {
             let levelSelector = cc.instantiate(this.levelSelectorPrefab);
             this.node.addChild(levelSelector);
@@ -63,7 +63,6 @@ cc.Class({
         for (let temp in nowData) {
             Global[temp] = this.deepCopy(nowData[temp]);
         }
-        console.log(nowData)
         cc.director.loadScene("Main");
     }
 });

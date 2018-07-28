@@ -31,6 +31,7 @@ window.Global = {
     gameScore: 0,
     gameBaseScore: 2000,
     gameNo: 1,
+    controlType: 1,
 };
 
 cc.Class({

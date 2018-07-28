@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "levelSelector",
+    "_name": "middleButton",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -48,8 +48,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 150,
-      "height": 40
+      "width": 160,
+      "height": 60
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -58,7 +58,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 0
+      "y": 35
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -102,8 +102,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 150,
-      "height": 40
+      "width": 160,
+      "height": 60
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -112,7 +112,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 0
+      "y": 5
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -130,17 +130,17 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 20,
-    "_fontSize": 20,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
     "_lineHeight": 40,
     "_enableWrapText": false,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "db",
+    "_N$string": "开始游戏",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
+    "_N$fontFamily": "Microsoft YaHei",
     "_N$overflow": 1
   },
   {
@@ -149,9 +149,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "63f0211a-8fda-4254-a2fb-0b63c14dde6c"
+      "__id__": 0
     },
-    "fileId": "f5euBSlABJ1okucxXUTXdZ",
+    "fileId": "3b27IidAtL4LE86z3clSX0",
     "sync": false
   },
   {
@@ -261,9 +261,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "63f0211a-8fda-4254-a2fb-0b63c14dde6c"
+      "__id__": 0
     },
-    "fileId": "e4Pe0PV75KhLWnHmPLvYtm",
+    "fileId": "baPZ0GrJBNd4lF8pUsA3/0",
     "sync": false
   }
 ]

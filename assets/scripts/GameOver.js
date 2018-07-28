@@ -6,10 +6,6 @@ cc.Class({
             default: null,
             type: cc.Node,
         },
-        overAudio: {
-            default: null,
-            url: cc.AudioClip
-        },
         display: {
             default: null,
             type: cc.Sprite,
@@ -19,7 +15,6 @@ cc.Class({
     },
 
     onLoad() {
-        cc.audioEngine.playEffect(this.overAudio,false);
         this.label.getComponent('cc.Label').string = Global.failInfo;
     },
 

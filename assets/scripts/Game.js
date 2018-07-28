@@ -1,10 +1,11 @@
 const EMPTY_CELL = 0, ICE_CELL = 1, WALL_CELL = 2, ENEMY_MOVE = 32, PLAYER_MOVE = 16, PRINCESS_SAVE_SCORE = 5000, FRAME_RATE = 60;
+const BUTTON_CONTROL = 0, ROCKER_CONTROL = 1;
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        //// 这些是在界面里面设置的内容
+        // ** 这些是在界面里面设置的内容
         mainView: {
             default: null,
             type: cc.Node,
@@ -66,13 +67,28 @@ cc.Class({
             type: cc.Node,
         },
 
-        spRoker: cc.Sprite,
-        spSokerCenter: cc.Sprite,
-        
+        spRoker: {
+            default: null,
+            type: cc.Sprite,
+        },
+        spSokerCenter: {
+            default: null,
+            type: cc.Sprite,
+        },
+
+
+        buttonControlLayout: {
+            default: null,
+            type: cc.Node,
+        },
+        rockerControlLayout: {
+            default: null,
+            type: cc.Node,
+        },
 
         
-        //// 这些是常数，*************切记要改的时候在cocos creator里面设置初始值！
-        //// 但是这些东西也可以直接进行修改作为彩蛋~bingo~
+        // ** 这些是常数，*************切记要改的时候在cocos creator里面设置初始值！
+        // ** 但是这些东西也可以直接进行修改作为彩蛋~bingo~
         cellWidth: 60,
         cellHeight: 60,
         
@@ -95,7 +111,7 @@ cc.Class({
     
 
 
-        //// 剩下的正常会修改的东西，在onload里面设置初始值
+        // ** 剩下的正常会修改的东西，在onload里面设置初始值
         starNum: 0,
 
         pressed: false,
@@ -151,18 +167,10 @@ cc.Class({
         // 彩蛋：无敌模式，在和小怪碰到的时候不会死，但是会减少100分（但是分数减少到0就死了呗，而且一旦碰到小怪就不是直接碰一次的事情咯~bingo~）
         heroFearless: false,
         heroFearlessCount: 0,
-    },
 
-    // initCells: function(self, width, height) {
-    //     self.cellsNumW = width;
-    //     self.cellsNumH = height;
-    //     for (let i = 0; i < height; i++) {
-    //         self.cells.push([]);
-    //         for (let j = 0; j < width; j++) {
-    //             self.cells[i].push(EMPTY_CELL);
-    //         }
-    //     }
-    // },
+        // 用于控制摇杆和按钮切换
+        controlType: 1,
+    },
 
     getCellPosition: function(self, i, j) {
         return cc.p(self.cellWidth * (j - (self.cellsNumW - 1) / 2), self.cellHeight * (i - (self.cellsNumH - 1) / 2));
@@ -281,9 +289,37 @@ cc.Class({
         self.mainView.height = cc.view.getVisibleSize().height / 2 + self.cellsNumH * self.cellHeight * size;
     },
 
+    changeControlType: function(event, data) {
+        if (this.controlType === ROCKER_CONTROL) {
+            this.controlType = BUTTON_CONTROL;
+            Global.controlType = BUTTON_CONTROL;
+        }
+        else {
+            this.controlType = ROCKER_CONTROL;
+            Global.controlType = ROCKER_CONTROL;
+        }
+        this.loadControlType(this, this.controlType);
+    },
+
+    loadControlType: function(self, type) {
+        self.controlType = type;
+        Global.controlType = type;
+        if (self.controlType === BUTTON_CONTROL) {
+            self.buttonControlLayout.active = true;
+            self.rockerControlLayout.active = false;
+        }
+        else {
+            self.buttonControlLayout.active = false;
+            self.rockerControlLayout.active = true;
+        }
+    },
+
     onLoad () {
         // 计分
         Global.gameScore = Global.gameBaseScore;
+
+        // 摇杆控制
+        this.loadControlType(this, Global.controlType);
 
         this.spRoker.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.spRoker.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
