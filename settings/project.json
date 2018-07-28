@@ -15,6 +15,7 @@
   "design-resolution-width": 960,
   "excluded-modules": [
     "CCSpriteDistortion",
+    "LabelOutline",
     "ParticleSystem",
     "TiledMap",
     "Spine Skeleton",
@@ -32,7 +33,6 @@
     "Physics",
     "Chipmunk",
     "Camera",
-    "Intersection",
     "Native NetWork"
   ],
   "fit-height": false,

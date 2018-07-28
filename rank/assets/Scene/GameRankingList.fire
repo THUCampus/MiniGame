@@ -2026,6 +2026,13 @@
     "scoreLabel": {
       "__id__": 46
     },
+    "levelSelectorPrefab": {
+      "__uuid__": "403145c0-4710-423f-b53d-6fd532e80235"
+    },
+    "levelSelectorContent": {
+      "__id__": 32
+    },
+    "levelSelectors": [],
     "levelNums": 0
   },
   {

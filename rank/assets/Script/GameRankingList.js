@@ -35,7 +35,42 @@ cc.Class({
             type: cc.Node,
         },
 
+        levelSelectorPrefab: {
+            default: null,
+            type: cc.Prefab,
+        },
+        levelSelectorContent: {
+            default: null,
+            type: cc.Node,
+        },
+
+        levelSelectors: [],
+
         levelNums: 0,
+        singleHeight: 50,
+        oldIndex: 0,
+    },
+
+    updateLevelSelector: function() {
+        this.levelSelectorContent.height = this.singleHeight * Math.ceil(this.levelNums + 2);
+        this.levelSelectors = [];
+        for (let i = 0; i < this.levelNums; i++) {
+            let levelSelector = cc.instantiate(this.levelSelectorPrefab);
+            this.levelSelectorContent.addChild(levelSelector);
+            this.levelSelectors.push(levelSelector);
+            levelSelector.on("click", ()=>{
+                this.loadData(i);
+            });
+            levelSelector.setPosition(0, - this.singleHeight * (i + 1));
+            levelSelector.children[0].getComponent('cc.Label').string = '第' + (i + 1).toString() + '关';
+        };
+    },
+
+    loadData: function(index) {
+        this.levelSelectors[this.oldIndex].getComponent('cc.Button').interactable = true;
+        this.levelSelectors[index].getComponent('cc.Button').interactable = false;
+        this.oldIndex = index;
+        this.fetchFriendData(index.toString());
     },
     
     start() {
@@ -48,6 +83,8 @@ cc.Class({
                     this.submitScoreGameOverRank(data.gameNo, data.score);
                 } 
                 else if (data.messageType === 'rank') {
+                    // 绘出旁边的选关按钮
+                    this.updateLevelSelector();
                     // 获取好友排行榜
                     this.fetchFriendData(data.gameNo);
                 }
@@ -56,6 +93,9 @@ cc.Class({
     },
 
     submitScoreGameOverRank(gameNo, score) { //提交得分
+        this.removeChild();
+        this.gameOverRankView.active = true;
+        this.loadingLabel.getComponent(cc.Label).string = "排行榜加载中……";
         if (score >= 0) {
             score = Math.ceil(score);
             this.scoreLabel.getComponent('cc.Label').string = '第' + (parseInt(gameNo) + 1).toString() + '关，此次得分：' + score.toString();
@@ -82,11 +122,6 @@ cc.Class({
                     }
                 }
             });
-        }
-        this.removeChild();
-        this.gameOverRankView.active = true;
-        this.loadingLabel.getComponent(cc.Label).string = "排行榜加载中……";
-        if (CC_WECHATGAME) {
             wx.getUserInfo({
                 openIdList: ['selfOpenId'],
                 success: (userRes) => {
