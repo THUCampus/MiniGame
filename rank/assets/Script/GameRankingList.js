@@ -52,7 +52,7 @@ cc.Class({
     },
 
     updateLevelSelector: function() {
-        this.levelSelectorContent.height = this.singleHeight * Math.ceil(this.levelNums + 2);
+        this.levelSelectorContent.height = this.singleHeight * Math.ceil(this.levelNums + 1);
         this.levelSelectors = [];
         for (let i = 0; i < this.levelNums; i++) {
             let levelSelector = cc.instantiate(this.levelSelectorPrefab);
