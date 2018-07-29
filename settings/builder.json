@@ -28,7 +28,7 @@
   "renderMode": "1",
   "startScene": "cabefa2a-8951-4a8c-8446-cde8ad7e79cd",
   "title": "yuanyuanGame",
-  "webOrientation": "auto",
+  "webOrientation": "landscape",
   "wechatgame": {
     "REMOTE_SERVER_ROOT": "",
     "appid": "wx893295acaf63cbcf",
