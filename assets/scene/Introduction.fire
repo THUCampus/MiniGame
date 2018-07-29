@@ -874,8 +874,8 @@
       "__id__": 16
     },
     "nowIndex": 0,
-    "showTimes": 100,
-    "hideTimes": 60,
+    "showTimes": 30,
+    "hideTimes": 15,
     "singleTime": 0.05
   }
 ]

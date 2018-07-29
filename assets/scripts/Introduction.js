@@ -14,8 +14,8 @@ cc.Class({
         },
         nowIndex: 0,
 
-        showTimes: 10,
-        hideTimes: 3,
+        showTimes: 30,
+        hideTimes: 15,
         singleTime: 0.05,
     },
 
@@ -32,6 +32,7 @@ cc.Class({
             index += 1;
             self.content.opacity = 255 * index / self.showTimes;
             setTimeout(()=>{self.showContent(self, index);}, self.singleTime * 1000);
+            console.log(index);
         }
         else if (index >= self.showTimes && self.content) {
             self.hideContent(self, 0);
